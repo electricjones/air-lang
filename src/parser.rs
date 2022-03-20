@@ -1,23 +1,31 @@
 use pest::iterators::Pair;
 use pest::Parser;
 
-pub type ParserResult = Result<Vec<Node>, pest::error::Error<Rule>>;
+pub type Ast = Vec<Node>;
 
-pub fn parse(source: &str) -> ParserResult {
-    let mut ast = vec![];
-    let pairs = AirParser::parse(Rule::Program, source)?;
-    for pair in pairs {
-        if let Rule::Expr = pair.as_rule() {
-            ast.push(Node::from_expression(pair));
-        }
-    }
-
-    Ok(ast)
-}
+pub type ParserResult = Result<Ast, pest::error::Error<Rule>>;
 
 #[derive(pest_derive::Parser)]
 #[grammar = "air-grammar.pest"]
-struct AirParser;
+pub struct AirParser;
+
+impl AirParser {
+    pub fn new() -> Self {
+        AirParser
+    }
+
+    pub fn parse_source(&self, source: &str) -> ParserResult {
+        let mut ast = vec![];
+        let pairs = AirParser::parse(Rule::Program, source)?;
+        for pair in pairs {
+            if let Rule::Expr = pair.as_rule() {
+                ast.push(Node::from_expression(pair));
+            }
+        }
+
+        Ok(ast)
+    }
+}
 
 #[derive(Debug)]
 pub enum Operator {

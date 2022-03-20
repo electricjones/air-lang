@@ -1,31 +1,36 @@
-use crate::parser::Node;
+use anyhow::Error;
+
+use crate::parser::{AirParser, Node};
 use crate::parser::Operator;
 
-pub trait Compile {
-    type Output;
-
-    fn from_ast(ast: Vec<Node>) -> Self::Output;
-
-    fn from_source(source: &str) -> Self::Output {
-        // println!("Compiling the source: {}", source);
-        let ast: Vec<Node> = crate::parser::parse(source).unwrap();
-        // println!("{:?}", ast);
-        Self::from_ast(ast)
-    }
+pub enum ExecutionResult {
+    Valid(i32),
+    Invalid(Error),
 }
 
-pub struct Interpreter {}
+pub struct Interpreter {
+    parser: AirParser,
+    evaluator: Evaluator,
+}
 
-impl Compile for Interpreter {
-    type Output = anyhow::Result<i32>;
-
-    fn from_ast(ast: Vec<Node>) -> Self::Output {
-        let mut value = 0i32;
-        let evaluator = Evaluator::new();
-        for node in ast {
-            value += evaluator.evaluate(&node);
+impl Interpreter {
+    pub fn new() -> Self {
+        Interpreter {
+            parser: AirParser::new(), // @todo:  As a trait
+            evaluator: Evaluator::new(), // @todo: As a trait
         }
-        Ok(value)
+    }
+
+    pub fn execute(&self, source: &str) -> ExecutionResult {
+        let ast = self.parser.parse_source(source).unwrap();
+
+        let mut value = 0i32;
+        for node in ast {
+            value += self.evaluator.evaluate(&node);
+        }
+
+        // @todo: Handle invalid case
+        ExecutionResult::Valid(value)
     }
 }
 

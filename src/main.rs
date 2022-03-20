@@ -1,14 +1,21 @@
-use interpreter::{Compile, Interpreter};
+use interpreter::Interpreter;
+
+use crate::interpreter::ExecutionResult;
 
 mod interpreter;
 mod parser;
 mod application;
 
 fn main() {
-    println!("Hello, world!");
-    // let _ast = parse("1 + 2 + 3 + (4 - 5)").unwrap();
+    let source = "1 + 1";
 
-    let result = Interpreter::from_source("1 + 1 - 1 + (2 + 3)").unwrap();
-    println!("Answer: `{result}`");
-    println!("Goodbye!");
+    let interpreter = Interpreter::new(); // Default parser and evaluator
+    match interpreter.execute(source) {
+        ExecutionResult::Valid(value) => println!("Result: {value}"),
+        ExecutionResult::Invalid(err) => println!("Error:  {err}")
+    }
+
+
+    // let result = Interpreter::from_source("1 + 1 - 1 + (2 + 3)").unwrap();
+    // println!("Answer: `{result}`");
 }
