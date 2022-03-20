@@ -2,7 +2,6 @@ use pest::iterators::Pair;
 use pest::Parser;
 
 pub type Ast = Vec<Node>;
-
 pub type ParserResult = Result<Ast, pest::error::Error<Rule>>;
 
 pub trait AirLangParser {
@@ -39,7 +38,6 @@ pub enum Operator {
     Minus,
 }
 
-// @todo: rename to fully qualified words
 #[derive(Debug)]
 pub enum Node {
     Int(i32),
@@ -53,7 +51,6 @@ pub enum Node {
         right: Box<Node>,
     },
 }
-
 
 impl Node {
     fn from_expression(pair: Pair<Rule>) -> Node {

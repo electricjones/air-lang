@@ -9,14 +9,14 @@ pub enum ExecutionResult {
 
 pub struct Interpreter<> {
     parser: Box<dyn AirLangParser>,
-    evaluator: Evaluator,
+    evaluator: Box<dyn Evaluator>,
 }
 
 impl Interpreter {
     pub fn new() -> Interpreter {
         Interpreter {
             parser: Box::new(StandardParser::new()),
-            evaluator: Evaluator::new(), // @todo: As a trait
+            evaluator: Box::new(StandardEvaluator::new()),
         }
     }
 
@@ -33,14 +33,8 @@ impl Interpreter {
     }
 }
 
-struct Evaluator {}
-
-impl Evaluator {
-    pub fn new() -> Self {
-        Evaluator {}
-    }
-
-    pub fn evaluate(&self, node: &Node) -> i32 {
+pub trait Evaluator {
+    fn evaluate(&self, node: &Node) -> i32 {
         match node {
             Node::Int(n) => *n,
             Node::UnaryExpr { operator, child } => {
@@ -62,3 +56,13 @@ impl Evaluator {
         }
     }
 }
+
+struct StandardEvaluator {}
+
+impl StandardEvaluator {
+    pub fn new() -> Self {
+        StandardEvaluator {}
+    }
+}
+
+impl Evaluator for StandardEvaluator {}

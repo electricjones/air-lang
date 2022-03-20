@@ -9,7 +9,7 @@ mod application;
 fn main() {
     let source = "1 + 1";
 
-    let interpreter = Interpreter::new(); // Default parser and evaluator
+    let interpreter = Interpreter::new();
     match interpreter.execute(source) {
         ExecutionResult::Valid(value) => println!("Result: {value}"),
         ExecutionResult::Invalid(err) => println!("Error:  {err}")

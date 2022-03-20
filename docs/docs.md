@@ -1,13 +1,5 @@
-# Changes
-
-* Rename `Calc` to `Air`
-* Support other arithmetic
-
 # Todo
-
-- Clean up first branch
 - Add new operations (* / ++ -- ^ ^x)
-
 - add proper CLI and REPL
 
 - Allow sets `[]`
