@@ -30,13 +30,13 @@ pub enum Operator {
 pub enum Node {
     Int(i32),
     UnaryExpr {
-        op: Operator,
+        operator: Operator,
         child: Box<Node>,
     },
     BinaryExpr {
-        op: Operator,
-        lhs: Box<Node>,
-        rhs: Box<Node>,
+        operator: Operator,
+        left: Box<Node>,
+        right: Box<Node>,
     },
 }
 
@@ -47,28 +47,28 @@ impl Node {
             Rule::Expr => Node::from_expression(pair.into_inner().next().unwrap()),
             Rule::UnaryExpr => {
                 let mut pair = pair.into_inner();
-                let op = pair.next().unwrap();
+                let operator = pair.next().unwrap();
                 let child = pair.next().unwrap();
                 let child = Node::from_term(child);
-                Node::from_unary_expression(op, child)
+                Node::from_unary_expression(operator, child)
             }
             Rule::BinaryExpr => {
                 let mut pair = pair.into_inner();
-                let lhspair = pair.next().unwrap();
-                let mut lhs = Node::from_term(lhspair);
-                let mut op = pair.next().unwrap();
-                let rhspair = pair.next().unwrap();
-                let mut rhs = Node::from_term(rhspair);
-                let mut retval = Node::from_binary_expression(op, lhs, rhs);
+                let left_pair = pair.next().unwrap();
+                let mut left = Node::from_term(left_pair);
+                let mut operator = pair.next().unwrap();
+                let right_pair = pair.next().unwrap();
+                let mut right = Node::from_term(right_pair);
+                let mut return_value = Node::from_binary_expression(operator, left, right);
                 loop {
                     let pair_buf = pair.next();
                     if pair_buf != None {
-                        op = pair_buf.unwrap();
-                        lhs = retval;
-                        rhs = Node::from_term(pair.next().unwrap());
-                        retval = Node::from_binary_expression(op, lhs, rhs);
+                        operator = pair_buf.unwrap();
+                        left = return_value;
+                        right = Node::from_term(pair.next().unwrap());
+                        return_value = Node::from_binary_expression(operator, left, right);
                     } else {
-                        return retval;
+                        return return_value;
                     }
                 }
             }
@@ -94,7 +94,7 @@ impl Node {
 
     fn from_unary_expression(pair: Pair<Rule>, child: Node) -> Node {
         Node::UnaryExpr {
-            op: match pair.as_str() {
+            operator: match pair.as_str() {
                 "+" => Operator::Plus,
                 "-" => Operator::Minus,
                 _ => unreachable!(),
@@ -103,16 +103,15 @@ impl Node {
         }
     }
 
-    // fn Node::from_binary_expression(pair: Pair<Rule>, lhs: Node, rhs: Node) -> Node {
-    fn from_binary_expression(pair: Pair<Rule>, lhs: Node, rhs: Node) -> Node {
+    fn from_binary_expression(pair: Pair<Rule>, left: Node, right: Node) -> Node {
         Node::BinaryExpr {
-            op: match pair.as_str() {
+            operator: match pair.as_str() {
                 "+" => Operator::Plus,
                 "-" => Operator::Minus,
                 _ => unreachable!(),
             },
-            lhs: Box::new(lhs),
-            rhs: Box::new(rhs),
+            left: Box::new(left),
+            right: Box::new(right),
         }
     }
 }

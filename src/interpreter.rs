@@ -7,9 +7,9 @@ pub trait Compile {
     fn from_ast(ast: Vec<Node>) -> Self::Output;
 
     fn from_source(source: &str) -> Self::Output {
-        println!("Compiling the source: {}", source);
+        // println!("Compiling the source: {}", source);
         let ast: Vec<Node> = crate::parser::parse(source).unwrap();
-        println!("{:?}", ast);
+        // println!("{:?}", ast);
         Self::from_ast(ast)
     }
 }
@@ -39,20 +39,20 @@ impl Eval {
     pub fn eval(&self, node: &Node) -> i32 {
         match node {
             Node::Int(n) => *n,
-            Node::UnaryExpr { op, child } => {
+            Node::UnaryExpr { operator, child } => {
                 let child = self.eval(child);
-                match op {
+                match operator {
                     Operator::Plus => child,
                     Operator::Minus => -child,
                 }
             }
-            Node::BinaryExpr { op, lhs, rhs } => {
-                let lhs_ret = self.eval(lhs);
-                let rhs_ret = self.eval(rhs);
+            Node::BinaryExpr { operator, left, right } => {
+                let left_ret = self.eval(left);
+                let right_ret = self.eval(right);
 
-                match op {
-                    Operator::Plus => lhs_ret + rhs_ret,
-                    Operator::Minus => lhs_ret - rhs_ret,
+                match operator {
+                    Operator::Plus => left_ret + right_ret,
+                    Operator::Minus => left_ret - right_ret,
                 }
             }
         }
