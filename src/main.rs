@@ -14,8 +14,4 @@ fn main() {
         ExecutionResult::Valid(value) => println!("Result: {value}"),
         ExecutionResult::Invalid(err) => println!("Error:  {err}")
     }
-
-
-    // let result = Interpreter::from_source("1 + 1 - 1 + (2 + 3)").unwrap();
-    // println!("Answer: `{result}`");
 }

@@ -1,22 +1,21 @@
 use anyhow::Error;
 
-use crate::parser::{AirParser, Node};
-use crate::parser::Operator;
+use crate::parser::{AirLangParser, Node, Operator, StandardParser};
 
 pub enum ExecutionResult {
     Valid(i32),
     Invalid(Error),
 }
 
-pub struct Interpreter {
-    parser: AirParser,
+pub struct Interpreter<> {
+    parser: Box<dyn AirLangParser>,
     evaluator: Evaluator,
 }
 
 impl Interpreter {
-    pub fn new() -> Self {
+    pub fn new() -> Interpreter {
         Interpreter {
-            parser: AirParser::new(), // @todo:  As a trait
+            parser: Box::new(StandardParser::new()),
             evaluator: Evaluator::new(), // @todo: As a trait
         }
     }

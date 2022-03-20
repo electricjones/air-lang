@@ -5,18 +5,24 @@ pub type Ast = Vec<Node>;
 
 pub type ParserResult = Result<Ast, pest::error::Error<Rule>>;
 
+pub trait AirLangParser {
+    fn parse_source(&self, source: &str) -> ParserResult;
+}
+
 #[derive(pest_derive::Parser)]
 #[grammar = "air-grammar.pest"]
-pub struct AirParser;
+pub struct StandardParser;
 
-impl AirParser {
+impl StandardParser {
     pub fn new() -> Self {
-        AirParser
+        StandardParser
     }
+}
 
-    pub fn parse_source(&self, source: &str) -> ParserResult {
+impl AirLangParser for StandardParser {
+    fn parse_source(&self, source: &str) -> ParserResult {
         let mut ast = vec![];
-        let pairs = AirParser::parse(Rule::Program, source)?;
+        let pairs = StandardParser::parse(Rule::Program, source)?;
         for pair in pairs {
             if let Rule::Expr = pair.as_rule() {
                 ast.push(Node::from_expression(pair));
