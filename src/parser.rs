@@ -17,7 +17,7 @@ pub fn parse(source: &str) -> ParserResult {
 
 #[derive(pest_derive::Parser)]
 #[grammar = "air-grammar.pest"]
-pub struct AirParser;
+struct AirParser;
 
 #[derive(Debug)]
 pub enum Operator {
