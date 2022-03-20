@@ -54,12 +54,17 @@ impl Node {
             }
             Rule::BinaryExpr => {
                 let mut pair = pair.into_inner();
+
                 let left_pair = pair.next().unwrap();
                 let mut left = Node::from_term(left_pair);
+
                 let mut operator = pair.next().unwrap();
+
                 let right_pair = pair.next().unwrap();
                 let mut right = Node::from_term(right_pair);
+
                 let mut return_value = Node::from_binary_expression(operator, left, right);
+
                 loop {
                     let pair_buf = pair.next();
                     if pair_buf != None {
@@ -72,20 +77,20 @@ impl Node {
                     }
                 }
             }
-            unknown => panic!("Unknown expr: {:?}", unknown),
+            unknown => panic!("Unknown expression: {:?}", unknown),
         }
     }
 
     fn from_term(pair: Pair<Rule>) -> Node {
         match pair.as_rule() {
             Rule::Int => {
-                let istr = pair.as_str();
-                let (sign, istr) = match &istr[..1] {
-                    "-" => (-1, &istr[1..]),
-                    _ => (1, istr),
+                let pair_string = pair.as_str();
+                let (sign, pair_string) = match &pair_string[..1] {
+                    "-" => (-1, &pair_string[1..]),
+                    _ => (1, pair_string),
                 };
-                let int: i32 = istr.parse().unwrap();
-                Node::Int(sign * int)
+                let integer: i32 = pair_string.parse().unwrap();
+                Node::Int(sign * integer)
             }
             Rule::Expr => Node::from_expression(pair),
             unknown => panic!("Unknown term: {:?}", unknown),
