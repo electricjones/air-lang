@@ -14,45 +14,45 @@ pub trait Compile {
     }
 }
 
+pub struct Interpreter {}
+
 impl Compile for Interpreter {
     type Output = anyhow::Result<i32>;
 
     fn from_ast(ast: Vec<Node>) -> Self::Output {
-        let mut ret = 0i32;
-        let evaluator = Eval::new();
+        let mut value = 0i32;
+        let evaluator = Evaluator::new();
         for node in ast {
-            ret += evaluator.eval(&node);
+            value += evaluator.evaluate(&node);
         }
-        Ok(ret)
+        Ok(value)
     }
 }
 
-pub struct Interpreter {}
+struct Evaluator {}
 
-pub struct Eval {}
-
-impl Eval {
+impl Evaluator {
     pub fn new() -> Self {
-        Eval {}
+        Evaluator {}
     }
 
-    pub fn eval(&self, node: &Node) -> i32 {
+    pub fn evaluate(&self, node: &Node) -> i32 {
         match node {
             Node::Int(n) => *n,
             Node::UnaryExpr { operator, child } => {
-                let child = self.eval(child);
+                let child = self.evaluate(child);
                 match operator {
                     Operator::Plus => child,
                     Operator::Minus => -child,
                 }
             }
             Node::BinaryExpr { operator, left, right } => {
-                let left_ret = self.eval(left);
-                let right_ret = self.eval(right);
+                let left_value = self.evaluate(left);
+                let right_value = self.evaluate(right);
 
                 match operator {
-                    Operator::Plus => left_ret + right_ret,
-                    Operator::Minus => left_ret - right_ret,
+                    Operator::Plus => left_value + right_value,
+                    Operator::Minus => left_value - right_value,
                 }
             }
         }
