@@ -16,7 +16,8 @@ impl Interpreter {
     }
 
     pub fn execute(&self, source: &str) -> ExecutionResult {
-        let ast = self.parser.parse_source(source).unwrap();
+        let pre_processed = self.parser.pre_process(&source);
+        let ast = self.parser.parse_source(pre_processed.as_str()).unwrap();
 
         let mut value = 0i32;
         for node in ast {

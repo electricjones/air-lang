@@ -2,12 +2,16 @@ use std::fmt;
 
 use pest::iterators::Pair;
 use pest::Parser;
+use regex::Regex;
 
 pub type Ast = Vec<Node>;
 pub type ParserResult = Result<Ast, pest::error::Error<Rule>>;
 
 pub trait AirLangParser {
     fn parse_source(&self, source: &str) -> ParserResult;
+    fn pre_process(&self, source: &str) -> String {
+        String::from(source)
+    }
 }
 
 #[derive(pest_derive::Parser)]
@@ -32,10 +36,23 @@ impl AirLangParser for StandardParser {
 
         Ok(ast)
     }
+
+    fn pre_process(&self, source: &str) -> String {
+        // Group exponents
+        let exponent_regex = Regex::new(r"([-+]?[0-9])\s?\^\s?([0-9])").unwrap();
+        let processed = exponent_regex.replace_all(source, "($1^$2)");
+
+        // Build our final string and add a +0 to everything so its always a BinaryExpr
+        let mut response = String::from(processed);
+        response.push_str(" + 0");
+        response
+
+    }
 }
 
 #[derive(Debug)]
-pub enum Operator {
+pub enum
+Operator {
     Plus,
     Minus,
     Multiply,
