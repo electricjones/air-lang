@@ -8,7 +8,7 @@ UnaryExpr = { Operator ~ Term }
 
 BinaryExpr = { Term ~ (Operator ~ Term)* }
 
-Operator = { "+" | "-" | "*" }
+Operator = { "+" | "-" | "*" | "^" }
 
 Int = @{ Operator? ~ ASCII_DIGIT+ }
 
