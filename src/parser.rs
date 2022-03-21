@@ -56,6 +56,7 @@ Operator {
     Plus,
     Minus,
     Multiply,
+    Divide,
     Exponent,
 }
 
@@ -65,6 +66,7 @@ impl fmt::Display for Operator {
             Operator::Plus => write!(formatter, "+"),
             Operator::Minus => write!(formatter, "-"),
             Operator::Multiply => write!(formatter, "*"),
+            Operator::Divide => write!(formatter, "/"),
             Operator::Exponent => write!(formatter, "^"),
         }
     }
@@ -146,7 +148,6 @@ impl Node {
             operator: match pair.as_str() {
                 "+" => Operator::Plus,
                 "-" => Operator::Minus,
-                "*" => Operator::Multiply,
                 _ => unreachable!(),
             },
             child: Box::new(child),
@@ -159,6 +160,7 @@ impl Node {
                 "+" => Operator::Plus,
                 "-" => Operator::Minus,
                 "*" => Operator::Multiply,
+                "/" => Operator::Divide,
                 "^" => Operator::Exponent,
                 _ => unreachable!()
             },
