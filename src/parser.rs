@@ -1,3 +1,5 @@
+use std::fmt;
+
 use pest::iterators::Pair;
 use pest::Parser;
 
@@ -36,6 +38,15 @@ impl AirLangParser for StandardParser {
 pub enum Operator {
     Plus,
     Minus,
+}
+
+impl fmt::Display for Operator {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        match &self {
+            Operator::Plus => write!(formatter, "+"),
+            Operator::Minus => write!(formatter, "-"),
+        }
+    }
 }
 
 #[derive(Debug)]
@@ -128,6 +139,25 @@ impl Node {
             },
             left: Box::new(left),
             right: Box::new(right),
+        }
+    }
+}
+
+impl fmt::Display for Node {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        match &self {
+            Node::Int(value) => write!(formatter, "{}", value),
+
+            Node::UnaryExpr {
+                operator,
+                child
+            } => write!(formatter, "{}{}", operator, child),
+
+            Node::BinaryExpr {
+                operator,
+                left,
+                right
+            } => write!(formatter, "{} {} {}", left, operator, right),
         }
     }
 }

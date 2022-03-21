@@ -51,4 +51,4 @@ that's where I would get into scope, function, and all the rest.
 
 - https://pest.rs/
 - https://doc.rust-lang.org/book/
-- https://createlang.rs/01_calculator/vm.html
+- https://createlang.rs/
