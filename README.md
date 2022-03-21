@@ -26,7 +26,7 @@ At the moment, there is no CLI. Just a hardcoded `main()` function.
 With the rest of my (long) weekend, I hope to add:
 
 - A CLI that allows you to run a `.air` file or directly input an expression
-- Add `*`, `/`, `^x`, `++`, and `--`
+- Add `/`, `++`, and `--`
 - A useful Readme
 
 If I get done with that, or ever revist the project, I would
