@@ -38,7 +38,8 @@ pub trait Evaluator {
                     Operator::Plus => child,
                     Operator::Minus => -child,
                     Operator::Multiply => child,
-                    Operator::Exponent => child
+                    Operator::Exponent => child,
+                    Operator::Divide => child,
                 }
             }
             Node::BinaryExpr { operator, left, right } => {
@@ -49,6 +50,10 @@ pub trait Evaluator {
                     Operator::Plus => left_value + right_value,
                     Operator::Minus => left_value - right_value,
                     Operator::Multiply => left_value * right_value,
+                    Operator::Divide => {
+                        let float: f32 = left_value as f32 / right_value as f32;
+                        float.round() as i32
+                    },
                     Operator::Exponent => left_value.pow(right_value as u32),
                 }
             }
