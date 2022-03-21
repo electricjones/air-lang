@@ -1,11 +1,6 @@
-use anyhow::Error;
-
 use crate::parser::{AirLangParser, Node, Operator, StandardParser};
 
-pub enum ExecutionResult {
-    Valid(i32),
-    Invalid(Error),
-}
+pub type ExecutionResult = anyhow::Result<i32>;
 
 pub struct Interpreter<> {
     parser: Box<dyn AirLangParser>,
@@ -28,8 +23,7 @@ impl Interpreter {
             value += self.evaluator.evaluate(&node);
         }
 
-        // @todo: Handle invalid case
-        ExecutionResult::Valid(value)
+        Ok(value)
     }
 }
 

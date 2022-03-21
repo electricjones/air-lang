@@ -1,9 +1,5 @@
-use interpreter::Interpreter;
+use air_lang::interpreter::Interpreter;
 
-use crate::interpreter::ExecutionResult;
-
-mod interpreter;
-mod parser;
 mod application;
 
 fn main() {
@@ -11,8 +7,8 @@ fn main() {
 
     let interpreter = Interpreter::new();
     match interpreter.execute(source) {
-        ExecutionResult::Valid(value) => println!("Result: {value}"),
-        ExecutionResult::Invalid(err) => println!("Error:  {err}")
+        Ok(value) => println!("Result: {value}"),
+        Err(error) => println!("Error:  {error}")
     }
 }
 
