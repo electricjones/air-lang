@@ -38,6 +38,17 @@ impl AirLangParser for StandardParser {
 pub enum Operator {
     Plus,
     Minus,
+    Multiply,
+}
+
+impl fmt::Display for Operator {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
+        match &self {
+            Operator::Plus => write!(formatter, "+"),
+            Operator::Minus => write!(formatter, "-"),
+            Operator::Multiply => write!(formatter, "*"),
+        }
+    }
 }
 
 impl fmt::Display for Operator {
@@ -121,9 +132,11 @@ impl Node {
 
     fn from_unary_expression(pair: Pair<Rule>, child: Node) -> Node {
         Node::UnaryExpr {
+            // @todo: This pattern is repeated a lot
             operator: match pair.as_str() {
                 "+" => Operator::Plus,
                 "-" => Operator::Minus,
+                "*" => Operator::Multiply,
                 _ => unreachable!(),
             },
             child: Box::new(child),
@@ -135,6 +148,7 @@ impl Node {
             operator: match pair.as_str() {
                 "+" => Operator::Plus,
                 "-" => Operator::Minus,
+                "*" => Operator::Multiply,
                 _ => unreachable!(),
             },
             left: Box::new(left),

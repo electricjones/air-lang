@@ -1,7 +1,7 @@
 use air_lang::interpreter::Interpreter;
 
 #[test]
-fn it_executes_a_simple_script() {
+fn it_executes_some_simple_scripts() {
     let interpreter = Interpreter::new();
 
     let sources = [
@@ -13,6 +13,7 @@ fn it_executes_a_simple_script() {
         ("2 + 3 - 1", 4),
         ("1 + (3 - 2) + 4 - 6", 0),
         ("1 + 1 -     (2 + 1   + (3 - 2)) + 12", 10),
+        ("2 * 2", 4)
     ];
 
     for (source, expected) in sources {
