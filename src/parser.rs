@@ -39,6 +39,7 @@ pub enum Operator {
     Plus,
     Minus,
     Multiply,
+    Exponent,
 }
 
 impl fmt::Display for Operator {
@@ -47,15 +48,7 @@ impl fmt::Display for Operator {
             Operator::Plus => write!(formatter, "+"),
             Operator::Minus => write!(formatter, "-"),
             Operator::Multiply => write!(formatter, "*"),
-        }
-    }
-}
-
-impl fmt::Display for Operator {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
-        match &self {
-            Operator::Plus => write!(formatter, "+"),
-            Operator::Minus => write!(formatter, "-"),
+            Operator::Exponent => write!(formatter, "^"),
         }
     }
 }
@@ -149,7 +142,8 @@ impl Node {
                 "+" => Operator::Plus,
                 "-" => Operator::Minus,
                 "*" => Operator::Multiply,
-                _ => unreachable!(),
+                "^" => Operator::Exponent,
+                _ => unreachable!()
             },
             left: Box::new(left),
             right: Box::new(right),
