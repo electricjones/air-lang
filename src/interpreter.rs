@@ -36,6 +36,7 @@ pub trait Evaluator {
                 match operator {
                     Operator::Plus => child,
                     Operator::Minus => -child,
+                    Operator::Multiply => child,
                 }
             }
             Node::BinaryExpr { operator, left, right } => {
@@ -45,6 +46,7 @@ pub trait Evaluator {
                 match operator {
                     Operator::Plus => left_value + right_value,
                     Operator::Minus => left_value - right_value,
+                    Operator::Multiply => left_value * right_value,
                 }
             }
         }
