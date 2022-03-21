@@ -51,15 +51,6 @@ impl fmt::Display for Operator {
     }
 }
 
-impl fmt::Display for Operator {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
-        match &self {
-            Operator::Plus => write!(formatter, "+"),
-            Operator::Minus => write!(formatter, "-"),
-        }
-    }
-}
-
 #[derive(Debug)]
 pub enum Node {
     Int(i32),
