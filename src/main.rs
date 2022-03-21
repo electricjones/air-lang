@@ -7,7 +7,7 @@ mod parser;
 mod application;
 
 fn main() {
-    let source = "1 + 1";
+    let source = "1 + 1 - (2 + 1 + (3 - 2)) + 12";
 
     let interpreter = Interpreter::new();
     match interpreter.execute(source) {
@@ -15,3 +15,4 @@ fn main() {
         ExecutionResult::Invalid(err) => println!("Error:  {err}")
     }
 }
+
