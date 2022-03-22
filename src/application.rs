@@ -1,5 +1,4 @@
 use std::{fs, io};
-use std::error::Error;
 use std::io::Write;
 use air_lang::interpreter::Interpreter;
 
@@ -13,43 +12,44 @@ impl Application {
     }
 
     pub fn run(&self) {
-        if self.arguments.len() > 1 {
-            match self.arguments[1].as_str() {
-                "help" => {
-                    println!(include_str!("application/help.txt"));
-                }
+        let arguments: Vec<&str> = self.arguments.iter().map(|s| &**s).collect();
+        match arguments.as_slice() {
+            // `air help` - Show the help screen
+            ["help"] => {
+                println!(include_str!("application/help.txt"));
+            },
 
-                _ => {
-                    let contents = self.read_file(self.arguments[1].as_str());
-                    self.execute(contents.as_str());
-                }
+            // `air file.air` - Attempt to execute the file
+            [path] => {
+                let contents = self.read_file(&path);
+                self.execute(contents.as_str())
             }
 
-            return;
-        }
+            // `air` or `air repl` - Drop into the REPL
+            [] | _ => {
+                println!(include_str!("application/repl.txt"));
 
-        // No arguments means enter the REPL
-        println!(include_str!("application/repl.txt"));
+                loop {
+                    print!("> ");
+                    io::stdout().flush().unwrap();
 
-        loop {
-            print!("> ");
-            io::stdout().flush().unwrap();
+                    let mut expression = String::new();
 
-            let mut expression = String::new();
+                    io::stdin().read_line(&mut expression)
+                        .ok()
+                        .expect("Failed to read line");
 
-            io::stdin().read_line(&mut expression)
-                .ok()
-                .expect("Failed to read line");
+                    expression.truncate(expression.trim_end().len());
 
-            expression.truncate(expression.trim_end().len());
+                    // Escape Hatch
+                    if expression == "exit" {
+                        println!("Goodbye!");
+                        break;
+                    }
 
-            // Escape Hatch
-            if expression == "exit" {
-                println!("Goodbye!");
-                break;
+                    self.execute(expression.as_str())
+                }
             }
-
-            self.execute(expression.as_str())
         }
     }
 

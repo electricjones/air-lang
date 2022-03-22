@@ -1,9 +1,6 @@
 extern crate core;
 
-use std::{env, io};
-use std::io::Write;
-use air_lang::interpreter::Interpreter;
-use std::fs;
+use std::{env};
 use crate::application::Application;
 
 mod application;
