@@ -2,7 +2,7 @@
 This is a few-hours attempt at creating an interpreter from scratch for a made-up scripting language. No Virtual Machine,
 no true compiler, and no optimizations. Just a simple interpreter to parse and execute simple math expressions.
 
-**Please don't use for anything you care about. I guarantee this has bugs and terrible error handling**
+**Please don't use for anything you care about. I guarantee this has bugs and terrible error handling.**
 
 ## Air Language Script
 Called "air" because it sounds a little like the first part of "arithmetic". Also, I will use any excuse to sneak in
@@ -15,7 +15,7 @@ The script
 ```
 1 + 1 - (2 + 1 + (3 - 2)) + 12
 ```
-Evaluates to `10`. The expression is evaluated from the innermost parentheses outward.
+Evaluates to `10`. The expression is evaluated from the innermost parentheses outward. No operator precedence.
 
 ### Supported Operators
 - `+`
@@ -26,10 +26,10 @@ Evaluates to `10`. The expression is evaluated from the innermost parentheses ou
 
 **Only whole numbers are supported. No floating points**
 
-## Usage
-`air` - By itself drops you into a REPL. Type out an expression and hit <Enter>. Type "exit" to close.
-`air help` - opens a simple help screen (probably just this readme)
-`air /path/to/file.air` - Evaluates a file if it exists
+## CLI Usage
+- `air` - By itself drops you into a REPL. Type out an expression and hit <Enter>. Type "exit" to close.
+- `air help` - opens a simple help screen (probably just this readme)
+- `air /path/to/file.air` - Evaluates a file if it exists
 
 There is no support for pretty error messages. Just panics if something goes wrong.
 
