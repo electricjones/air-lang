@@ -15,18 +15,18 @@ impl Application {
         let arguments: Vec<&str> = self.arguments.iter().map(|s| &**s).collect();
         match arguments.as_slice() {
             // `air help` - Show the help screen
-            ["help"] => {
+            [_command, "help", ..] => {
                 println!(include_str!("application/help.txt"));
             },
 
             // `air file.air` - Attempt to execute the file
-            [path] => {
+            [_command, path] => {
                 let contents = self.read_file(&path);
                 self.execute(contents.as_str())
             }
 
             // `air` or `air repl` - Drop into the REPL
-            [] | _ => {
+            [_command] => {
                 println!(include_str!("application/repl.txt"));
 
                 loop {
@@ -50,6 +50,7 @@ impl Application {
                     self.execute(expression.as_str())
                 }
             }
+            _ => { println!("unreachable") }
         }
     }
 
