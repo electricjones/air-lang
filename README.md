@@ -17,6 +17,8 @@ The script
 ```
 Evaluates to `10`. The expression is evaluated from the innermost parentheses outward. No operator precedence.
 
+See `tests/integration.rs` for some examples.
+
 ### Supported Operators
 - `+`
 - `-`
