@@ -1,0 +1,10 @@
+           _        _
+     /\   (_)      | |
+    /  \   _ _ __  | |     __ _ _ __   __ _
+   / /\ \ | | '__| | |    / _` | '_ \ / _` |
+  / ____ \| | |    | |___| (_| | | | | (_| |
+ /_/    \_\_|_|    |______\__,_|_| |_|\__, |
+                                       __/ |
+                                      |___/
+Welcome to the REPL!
+Type an expression and hit <Enter> to see it evaluated. When Finished, type `exit`

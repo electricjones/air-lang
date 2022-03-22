@@ -1,14 +1,13 @@
-use air_lang::interpreter::Interpreter;
+extern crate core;
+
+use std::{env};
+use crate::application::Application;
 
 mod application;
 
 fn main() {
-    let source = "1 + 1 - (2 + 1 + (3 - 2)) + 12";
-
-    let interpreter = Interpreter::new();
-    match interpreter.execute(source) {
-        Ok(value) => println!("Result: {value}"),
-        Err(error) => println!("Error:  {error}")
-    }
+    let args: Vec<String> = env::args().collect();
+    let application = Application::from(args);
+    application.run();
 }
 
