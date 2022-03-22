@@ -1,1 +1,23 @@
-This is the help page!
+## Usage
+`air` - By itself drops you into a REPL. Type out an expression and hit <Enter>. Type "exit" to close.
+`air help` - opens a simple help screen (probably just this readme)
+`air /path/to/file.air` - Evaluates a file if it exists
+
+## Air Language Script
+The language itself is just a series of arithmetic expressions that get evaluated down to a single `i32` integer. The
+purpose was not to create something useful, but to understand parsing and execution.
+
+The script
+```
+1 + 1 - (2 + 1 + (3 - 2)) + 12
+```
+Evaluates to `10`. The expression is evaluated from the innermost parentheses outward.
+
+### Supported Operators
+- `+`
+- `-`
+- `*`
+- `/` (this rounds the result to an integer)
+- `^x` (raises to a power)
+
+**Only whole numbers are supported. No floating points**
